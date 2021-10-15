@@ -16,8 +16,8 @@ public class DataBaseConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        config.setUsername("");
-        config.setPassword("");
+        config.setUsername("spring3");
+        config.setPassword("1234");
         config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
         config.setDriverClassName("oracle.jdbc.driver.OracleDriver");
 
