@@ -41,7 +41,7 @@ class ScheduleMapperTest {
     void insertSchedule() {
         Schedule schedule = new Schedule();
 
-        schedule.setScdTitle("네번째 스케쥴");
+        schedule.setTitle("네번째 스케쥴");
         schedule.setScdContent("네번째 내용");
         schedule.setWriterEmpNo(2);
         schedule.setScdCode("D");
@@ -68,7 +68,7 @@ class ScheduleMapperTest {
         Schedule schedule = new Schedule();
         schedule.setScdNo(1);
         schedule.setScdContent("수정수정");
-        schedule.setScdTitle("수정된 스케쥴");
+        schedule.setTitle("수정된 스케쥴");
 
         boolean result = scheduleMapper.modifySchedule(schedule);
         Schedule schedule1 = scheduleMapper.getSchedule(1);
@@ -78,6 +78,13 @@ class ScheduleMapperTest {
 
     }
 
+    @Test
+    @DisplayName("Data타입이 올바른 String타입으로 변환되어야 한다")
+    void dataToString() {
+        Schedule schedule = new Schedule();
+
+        schedule.setStartDate(new Date());
+    }
 
 
 

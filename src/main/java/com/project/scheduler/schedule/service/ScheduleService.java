@@ -1,5 +1,6 @@
 package com.project.scheduler.schedule.service;
 
+import com.project.scheduler.schedule.domain.FullCalendar;
 import com.project.scheduler.schedule.domain.Schedule;
 import com.project.scheduler.schedule.repository.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,21 @@ public class ScheduleService {
         // n개 이상일 경우 그외 일정 m개 표시
         return scheduleMapper.getMonthScheduleList(month);
     }
-    
+
     // 일별 스케쥴 가져오기
     public List<Schedule> getDayScheduleList(int day) {
         return scheduleMapper.getDayScheduleList(day);
     }
 
     // 스케쥴 세부 일정 가져오기 - 스케쥴 번호를 통해 스케쥴 세부 정보 가져오기
-    public Schedule getSchedule(int scdNo){
-     return scheduleMapper.getSchedule(scdNo);
+    public FullCalendar getSchedule(int scdNo){
+        Schedule schedule = scheduleMapper.getSchedule(scdNo);
+
+        FullCalendar fullCalendar = new FullCalendar();
+        fullCalendar.setTitle(schedule.getTitle());
+        fullCalendar.setStart(schedule.getStart());
+        fullCalendar.setEnd(schedule.getEnd());
+        return fullCalendar;
     }
 
     // 스케쥴 등록

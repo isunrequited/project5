@@ -34,6 +34,20 @@
         WHERE emp_no = #{empNo}
     </select>
 
+    <!-- 사번 존재 유무 확인 -->
+    <select id="checkEmpNo" resultType="int">
+        SELECT COUNT(*)
+        FROM employee
+        WHERE emp_no = #{empNo}
+    </select>
+
+    <!-- 비밀번호 가져오기 -->
+    <select id="getPassword" resultType="String">
+        SELECT password
+        FROM employee
+        WHERE emp_no = #{empNo}
+    </select>
+
     <!--사원 삭제-->
     <delete id="deleteEmployee">
         DELETE FROM employee
@@ -46,5 +60,7 @@
         dpt_no = #{dptNo}, pos_no = #{posNo}
         WHERE emp_no =#{empNo}
     </update>
+
+
 
 </mapper>

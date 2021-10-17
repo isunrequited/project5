@@ -8,7 +8,7 @@
     <resultMap id="scheduleMap" type="com.project.scheduler.schedule.domain.Schedule">
 <!--         설정해야함-->
         <result property="scdNo" column="scd_no" />
-        <result property="scdTitle" column="scd_title" />
+        <result property="title" column="scd_title" />
         <result property="scdContent" column="scd_content" />
         <result property="writerEmpNo" column="writer_emp_no" />
         <result property="scdCode" column="scd_code" />
@@ -18,7 +18,7 @@
     </resultMap>
     <!--스케줄 전체조회-->
 
-    <select id="getScheduleList" resultMap="scheduleMap">
+    <select id="getMonthScheduleList" resultMap="scheduleMap">
         SELECT * FROM schedule
     </select>
 

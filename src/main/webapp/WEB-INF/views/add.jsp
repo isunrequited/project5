@@ -6,12 +6,13 @@
 <head>
    <meta charset="UTF-8">
    <title>Insert title here</title>
+   <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 
 <body>
    
    <div class="write-container">
-      <h1>스케쥴 등록</h1>
+      <h1>일정 등록</h1>
 
       <form class="write-form" action="/schedule/scd-add">
          <div class="input-box">
@@ -29,12 +30,34 @@
                 <input type="checkbox" name="type" value="P"> 개인 일정
             </label>
 
+            <input type="date" name="date">
+            <input type="time" name="date">
+
          </div>
          <button type="submit">등록</button>
+         
       </form>
    </div>
 
-   <a id="go" href="/board/list">글 목록보기</a>
+   <input type="button" value="ajax" id="go">
+
+   <script>
+      $("#go").click(()=> {
+         $.ajax({
+            type:"GET",
+            url:"/schedule/test",
+            dataType: "json",
+            success: function(data){
+               alert(data.title);
+            },
+             error: function() {
+                alert("실패");
+            }
+         })
+      })
+
+   </script>
+
 
 </body>
 
