@@ -12,13 +12,13 @@
 <body>
    
    <div class="write-container">
-      <h1>일정 등록</h1>
+      <h1>일정 수정</h1>
 
-      <form class="write-form" action="/schedule/add-schedule/${empNo}" method="POST">
+      <form class="write-form" action="/schedule/mod-schedule/${empNo}" method="POST">
          <div class="input-box">
 
             
-            # 제목: <input class="form-control" type="text" name="scdTitle"><br>
+            # 제목: <input class="form-control" type="text" name="scdTitle" value="${schedule.scdTitle}"><br>
 
             # 시작날짜: <input type="date" name="startDay"><br>
             # 시작시간: <input type="time" name="startTime"><br>
@@ -33,10 +33,11 @@
             </label>
 
          </div>
-         <button type="submit">등록</button>
+         <button type="submit">수정</button>
          
       </form>
-      <button type="button" onclick="location.replace('/schedule/calendar/${empNo}') ">뒤로가기</button>
+      <button type="button" onclick="location.replace('/schedule/calendar/${empNo}') ">취소</button>
+      <button type="button" onclick="location.replace('/schedule/calendar/${empNo}') ">삭제</button>
    </div>
 
 </body>

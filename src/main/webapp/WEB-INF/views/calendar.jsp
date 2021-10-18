@@ -14,14 +14,32 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        const empNo = '${empNo}';
+        console.log(empNo);
+        $(document).ready(function(){
+            loadingCalendar();
+            $("input[name='type']").change(function() {
+                loadingCalendar();
+            });
+        });
+
+        //document.addEventListener('DOMContentLoaded', function() {
+        function loadingCalendar() {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-               
+                
                 initialView: 'dayGridMonth',
+                customButtons: {
+                    add_event: {
+                        text: '일정추가',
+                        click: function() {
+                            location.href = '/calendar/' + empNo
+                        }
+                    }
+                },
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev,next today add_event',
                     center: 'title',
                     right: 'dayGridMonth,timeGridDay'
                 },
@@ -31,40 +49,72 @@
                     day : '일'
                 },
                 navLinks: true, // can click day/week names to navigate views
+                editable: true,
                 dayMaxEvents: true, // 셀 크기보다 많은 이벤트 동록되어 있는 경우 'more'로 표기함
                 selectable: true,
+                contentHeight:"auto",
                 locale: 'ko',
-
+                eventClick: function(arg) {  // 이벤트 클릭시
+                    location.href = '/schedule/modify/' + empNo + '?scdNo=' + arg.event.id;
+                },
                 events: function(info, successCallback, failureCallback){ // ajax 처리로 데이터를 로딩 시킨다. 
-                    
+                    var events = [];
+                    var types = "";
+                    $("input[name='type']:checked").each(function() {
+                        types += $(this).val() + " ";
+                        
+                    });
+                    var type = {"type": types};
+                    console.log(type);
                     $.ajax({
                         type:"GET",
-                        url:"/schedule/get-schedule", 
+                        data: type,
+                        url:"/schedule/get-schedule/" + empNo, 
                         dataType:"json",
                         success: function(result){
-                            var events = [];
                             $.each(result, function(index, schedule) {
                                 events.push({
-                                               title: schedule.title,
-                                               start: schedule.start,
-                                               end: schedule.end,                                               
+                                                id: schedule.scdNo,
+                                                title: schedule.scdTitle,
+                                                start: schedule.start,
+                                                end: schedule.end,
+                                                color: schedule.color                                               
                                             }); //.push()
                             });
-                            console.log(events);
-                            successCallback(events);
+                        console.log(events);
+                        successCallback(events);
                         }
                     }); 
+                    
                 }
             });
 
             calendar.render();
-        });
+        }
+
+        function calDateWhenResize(event) {
+
+            var newDates = {
+                startDate: '',
+                endDate: ''
+            };
+
+            newDates.startDate = moment(event.start._d).format('YYYY-MM-DD HH:mm');
+            newDates.endDate = moment(event.end._d).format('YYYY-MM-DD HH:mm');
+
+            return newDates;
+        }
 
     </script>
     <title></title>
 </head>
 <body>
-    
+    <label>
+        #일정 구분: 
+        <input type="checkbox" name="type" value="C" checked> 회사 일정
+        <input type="checkbox" name="type" value="D"> 부서 일정
+        <input type="checkbox" name="type" value="P"> 개인 일정
+    </label>
     <div id='calendar'></div>
 </body>
 </html>

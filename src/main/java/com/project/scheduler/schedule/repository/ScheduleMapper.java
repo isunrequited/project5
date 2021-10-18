@@ -9,12 +9,9 @@ import java.util.List;
 public interface ScheduleMapper {
 
     // 월별 스케쥴 가져오기
-    List<Schedule> getMonthScheduleList(int month);
-    
-    // 일별 스케쥴 가져오기
-    List<Schedule> getDayScheduleList(int day);
+    List<Schedule> getScheduleList(String[] codes);
 
-    // 스케쥴 세부 일정 가져오기 - 스케쥴 번호를 통해 스케쥴 세부 정보 가져오기
+    // 일정 하나 가져오기
     Schedule getSchedule(int scdNo);
 
     // 스케쥴 등록

@@ -6,34 +6,39 @@
 <mapper namespace="com.project.scheduler.schedule.repository.ScheduleMapper">
 
     <resultMap id="scheduleMap" type="com.project.scheduler.schedule.domain.Schedule">
-<!--         설정해야함-->
         <result property="scdNo" column="scd_no" />
-        <result property="title" column="scd_title" />
-        <result property="scdContent" column="scd_content" />
+        <result property="scdTitle" column="scd_title" />
         <result property="writerEmpNo" column="writer_emp_no" />
         <result property="scdCode" column="scd_code" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
 
     </resultMap>
-    <!--스케줄 전체조회-->
 
-    <select id="getMonthScheduleList" resultMap="scheduleMap">
-        SELECT * FROM schedule
+    <!-- 코드에 따른 일정 가져오기 -->
+    <select id="getScheduleList" resultMap="scheduleMap">
+        SELECT *
+        FROM schedule
+        WHERE
+            scd_code IN
+        <foreach collection="array" item="code"  open="(" close=")" separator=",">
+            #{code}
+        </foreach>
     </select>
 
-    <!--스케줄 상세조회-->
+    <!-- 일정 하나 가져오기 -->
     <select id="getSchedule" resultMap="scheduleMap">
-        SELECT * FROM schedule
+        SELECT *
+        FROM schedule
         WHERE scd_no = #{scdNo}
     </select>
 
-    <!--스케줄 등록되는데 테스트 통과가 안됨..-->
+    <!--스케줄 등록-->
     <insert id="insertSchedule">
         INSERT INTO schedule
-        (scd_no, scd_title, scd_content, writer_emp_no, scd_code, start_date, end_date)
+        (scd_no, scd_title, writer_emp_no, scd_code, start_date, end_date)
         VALUES
-        (seq_scd.nextval, #{scdTitle}, #{scdContent}, #{writerEmpNo}, #{scdCode}, #{startDate}, #{endDate})
+        (seq_scd.nextval, #{scdTitle}, #{writerEmpNo}, #{scdCode}, #{startDate}, #{endDate})
     </insert>
 
     <!--스케줄 삭제-->

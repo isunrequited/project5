@@ -24,7 +24,6 @@ CREATE TABLE position (
 CREATE TABLE schedule (
     scd_no NUMBER(10),
     scd_title VARCHAR2(50) NOT NULL,
-    scd_content VARCHAR(100),
     writer_emp_no NUMBER (10) NOT NULL,
     scd_code VARCHAR2 (10) NOT NULL,
     start_date DATE NOT NULL,
@@ -80,6 +79,10 @@ INSERT INTO employee
 VALUES (seq_emp.nextval, '홍길동', 3, 2);
 
 INSERT INTO schedule
-VALUES (1, '첫번째 스케줄','내용',1,1,'2021-10-11','2021-10-14' );
+        (scd_no, scd_title, writer_emp_no, scd_code, start_date, end_date)
+        VALUES
+        (seq_scd.nextval, '테스트', 1, 'C', SYSDATE, SYSDATE);
 INSERT INTO schedule
-VALUES (2, '두번째 스케줄','내용',2,2,'2021-10-13','2021-10-14' );
+        (scd_no, scd_title, writer_emp_no, scd_code, start_date, end_date)
+        VALUES
+        (seq_scd.nextval, '테스트2', 2, 'C', SYSDATE, SYSDATE);
