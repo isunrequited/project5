@@ -25,14 +25,11 @@ public class ScheduleService {
     public List<Schedule> getScheduleList(String type, int empNo){
         Employee employee = employeeMapper.getEmployee(empNo);
         String[] types = spliteType(type);
-        log.info(types[0]);
         String[] codes = new String[types.length];
         for (int i = 0; i < codes.length; i++) {
             codes[i] = makeScdCode(types[i], employee);
         }
-        log.info(codes[0]);
         List<Schedule> scheduleList = scheduleMapper.getScheduleList(codes);
-        log.info(scheduleList);
         return scheduleList;
     }
 
@@ -57,8 +54,6 @@ public class ScheduleService {
         // 코드 생성
         schedule.setScdCode(makeScdCode(type, employee));
 
-        log.info(schedule);
-
         return scheduleMapper.insertSchedule(schedule);
     }
 
@@ -69,6 +64,13 @@ public class ScheduleService {
 
     // 스케쥴 수정
     public boolean modifySchedule(Schedule schedule){
+        try {
+            schedule.setStartDate(stringToDate(schedule.getStartDay(), schedule.getStartTime()));
+            schedule.setEndDate(stringToDate(schedule.getEndDay(), schedule.getEndTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        log.info(schedule);
         return scheduleMapper.modifySchedule(schedule);
     }
 

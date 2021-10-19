@@ -31,12 +31,18 @@ public class Schedule {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-        start = dateToString(startDate);
+        String[] startStrArray= dateToString(startDate);
+        start = startStrArray[0];
+        startDay = startStrArray[1];
+        startTime = startStrArray[2];
     }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-        end = dateToString(endDate);
+        String[] endStrArray= dateToString(endDate);
+        end = endStrArray[0];
+        endDay = endStrArray[1];
+        endTime = endStrArray[2];
     }
 
     public void setScdCode(String scdCode) {
@@ -55,11 +61,13 @@ public class Schedule {
         }
     }
 
-    private String dateToString(Date date) {
+    private String[] dateToString(Date date) {
         SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-
-        String changedDate = dayFormat.format(date) + "T" + timeFormat.format(date);
+        String[] changedDate = new String[3];
+        changedDate[0] = dayFormat.format(date) + "T" + timeFormat.format(date);
+        changedDate[1] = dayFormat.format(date); // 날짜
+        changedDate[2] = timeFormat.format(date); // 시간
         return changedDate;
     }
 }

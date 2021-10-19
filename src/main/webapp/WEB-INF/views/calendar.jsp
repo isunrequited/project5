@@ -15,7 +15,6 @@
 
     <script>
         const empNo = '${empNo}';
-        console.log(empNo);
         $(document).ready(function(){
             loadingCalendar();
             $("input[name='type']").change(function() {
@@ -34,7 +33,7 @@
                     add_event: {
                         text: '일정추가',
                         click: function() {
-                            location.href = '/calendar/' + empNo
+                            location.href = '/schedule/add/' + empNo
                         }
                     }
                 },
@@ -65,7 +64,6 @@
                         
                     });
                     var type = {"type": types};
-                    console.log(type);
                     $.ajax({
                         type:"GET",
                         data: type,

@@ -2,6 +2,7 @@ package com.project.scheduler.schedule.controller;
 
 import com.project.scheduler.schedule.domain.Schedule;
 import com.project.scheduler.schedule.service.ScheduleService;
+import jdk.nashorn.internal.parser.JSONParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -28,13 +29,8 @@ public class ScheduleController {
     }
 
     // 추가 기능
-    @PostMapping("/scd-add/{empNo}")
+    @PostMapping("/add-schedule/{empNo}")
     public String scdAdd(Schedule schedule, String type, @PathVariable int empNo) {
-
-        // 클라이언트로부터 데이터를 받아 서비스메서드로 보냄
-        log.info(schedule);
-        log.info("==========================================");
-
         scheduleService.insertSchedule(type, schedule, empNo);
         return "redirect:/schedule/calendar/" + empNo;
     }
@@ -50,9 +46,8 @@ public class ScheduleController {
     @GetMapping("/get-schedule/{empNo}")
     @ResponseBody
     public ResponseEntity<List<Schedule>> data (String type, @PathVariable int empNo) {
-        log.info(type);
-        log.info("/schedule/get-schedule - GET 호출");
         List<Schedule> schedules = scheduleService.getScheduleList(type, empNo);
+        log.info(schedules);
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 
@@ -60,24 +55,27 @@ public class ScheduleController {
     @GetMapping("/modify/{empNo}")
     public String modify(@PathVariable int empNo, int scdNo, Model model) {
         model.addAttribute("empNo", empNo);
-        model.addAttribute("schedule", scheduleService.getSchedule(scdNo));
-        log.info(scheduleService.getSchedule(scdNo));
+        Schedule schedule = scheduleService.getSchedule(scdNo);
+        model.addAttribute("schedule", schedule);
         return "/modify";
     }
 
     // 수정 기능
     @PostMapping("/mod-schedule/{empNo}")
     public String modify(@PathVariable int empNo, Schedule schedule) {
-        //scheduleService.deleteSchedule(scdNo);
-        log.info(schedule);
+        scheduleService.modifySchedule(schedule);
         return "redirect:/schedule/calendar/" + empNo;
     }
 
     // 삭제 기능
-    @PostMapping("/del-schedule/{empNo}")
-    public String delete(@PathVariable int empNo, int scdNo) {
-        scheduleService.deleteSchedule(scdNo);
-        return "redirect:/schedule/calendar/" + empNo;
+    @GetMapping("/del-schedule/{scdNo}")
+    @ResponseBody
+    public  ResponseEntity<String> delete(@PathVariable int scdNo) {
+        log.info(scdNo);
+        return scheduleService.deleteSchedule(scdNo)
+                ? new ResponseEntity<>("deleteSuccess", HttpStatus.OK)
+                : new ResponseEntity<>("deleteFail", HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
 }

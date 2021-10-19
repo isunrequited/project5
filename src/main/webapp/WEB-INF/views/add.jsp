@@ -27,9 +27,9 @@
 
             <label>
                 #일정 구분: 
-                <input type="checkbox" name="type" value="C"> 회사 일정
-                <input type="checkbox" name="type" value="D"> 부서 일정
-                <input type="checkbox" name="type" value="P"> 개인 일정
+                <input type="radio" name="type" value="C" checked> 회사 일정
+                <input type="radio" name="type" value="D"> 부서 일정
+                <input type="radio" name="type" value="P"> 개인 일정
             </label>
 
          </div>
