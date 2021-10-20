@@ -20,7 +20,19 @@
             $("input[name='type']").change(function() {
                 loadingCalendar();
             });
+
+            empInfo();
         });
+
+        function empInfo() {
+            fetch('/get-empInfo/${empNo}')
+            .then(res => res.json())
+            .then(info => {
+                console.log(info);
+                let infoStr = info.dep.dptName + " " + info.empName + " " + info.pos.posName + "님 안녕하세요"
+                $('#emp-info').html(infoStr);
+            })
+        }
 
         //document.addEventListener('DOMContentLoaded', function() {
         function loadingCalendar() {
@@ -107,6 +119,9 @@
     <title></title>
 </head>
 <body>
+    <div>
+        <span id="emp-info"></span>
+    </div>
     <label>
         #일정 구분: 
         <input type="checkbox" name="type" value="C" checked> 회사 일정
